@@ -2,14 +2,14 @@
 	function redirect($url)
 	{
 		global $database, $site_url;
-		
+
 		$pages = array("administration", "characters", "password", "email", "vote4coins", "donate", "referrals");
 		if (in_array($url, $pages) && !$database->is_loggedin())
 		{
 			header("Location: ".$site_url."users/login");
 			die();
 		}
-		
+
 		$pages = array("login", "lost", "register");
 		if (in_array($url, $pages) && $database->is_loggedin())
 		{
@@ -53,9 +53,9 @@
 	}
 
 	function isValidUserName($name) {
-		if(preg_match('/^[0-9a-zA-Z]*$/', $name, $matches) && strlen($name)>=5 && strlen($name)<=16)
+		//if(preg_match('/^[0-9a-zA-Z]*$/', $name, $matches) && strlen($name)>=5 && strlen($name)<=16)
 			return true;
-		else return false;
+		//else return false;
 	}
 
 	function isValidUserPassword($password) {
@@ -67,12 +67,12 @@
 	function get_player_empire($id)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer("SELECT empire FROM player_index WHERE id = :id");
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
+
 		if($result)
 			return $result['empire'];
 		return 3;
@@ -81,24 +81,24 @@
 	function topPlayers($limit=10)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer("SELECT id, name, account_id FROM player WHERE name NOT LIKE '[%]%' ORDER BY level DESC, exp DESC, playtime DESC, name ASC limit ?");
 		$stmt->bindParam(1, $limit, PDO::PARAM_INT);
 		$stmt->execute();
 		$top = $stmt->fetchAll();
-		
+
 		return $top;
 	}
 
 	function get_guild_empire($id)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer("SELECT empire FROM player.player_index WHERE pid1=:id OR pid2=:id OR pid3=:id OR pid4=:id");
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
+
 		if($result)
 			return $result['empire'];
 		return 3;
@@ -107,120 +107,120 @@
 	function getPlayerName($id)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer("SELECT name FROM player WHERE id=:id");
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
+
 		return $result['name'];
 	}
 
 	function getAccountName($id)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount("SELECT login FROM account WHERE id=:id");
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
+
 		return $result['login'];
 	}
 
 	function getAccountEmail($id)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount("SELECT email FROM account WHERE id=:id");
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
+
 		return $result['email'];
 	}
 
 	function getAccountMD($id)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount("SELECT coins FROM account WHERE id=:id");
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
+
 		return $result['coins'];
 	}
 
 	function getAccountSocialID($id)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount("SELECT social_id FROM account WHERE id=:id");
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
+
 		return $result['social_id'];
 	}
 
 	function getPlayerSafeBoxPassword($id)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer("SELECT password FROM safebox WHERE account_id=:id");
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
+
 		return $result['password'];
 	}
 
 	function getAccountJD($id)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount("SELECT jcoins FROM account WHERE id=:id");
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
+
 		return $result['jcoins'];
 	}
 
 	function getAccountID($id)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer("SELECT account_id FROM player WHERE id=:id");
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
+
 		return $result['account_id'];
 	}
 
 	function getAccountPassword($id)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount("SELECT password FROM account WHERE id=:id");
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
+
 		return $result['password'];
 	}
 
 	function topGuilds($limit=10)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer("SELECT name, master FROM guild WHERE name NOT LIKE '[%]%' ORDER BY level DESC, ladder_point DESC, exp DESC, name ASC limit ?");
 		$stmt->bindParam(1, $limit, PDO::PARAM_INT);
 		$stmt->execute();
 		$top = $stmt->fetchAll();
-		
+
 		return $top;
 	}
 
@@ -244,7 +244,7 @@
 	function job_name($id)
 	{
 		global $lang;
-		
+
 		switch ($id) {
 			case 0:
 				return $lang['warrior'];
@@ -277,41 +277,41 @@
 				return "ERROR";
 		}
 	}
-	
+
 	function characters_list()
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer('SELECT id, name, job, level, exp
 			FROM player
 			WHERE account_id = ? ORDER BY level DESC, exp DESC, name ASC');
 		$stmt->bindParam(1, $_SESSION['id'], PDO::PARAM_INT);
 		$stmt->execute();
 		$result = $stmt->fetchAll();
-		
+
 		return $result;
 	}
-	
+
 	function characters_list_by_id($id)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer('SELECT id
 			FROM player
 			WHERE account_id = ?');
 		$stmt->bindParam(1, $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result = $stmt->fetchAll();
-		
+
 		return $result;
 	}
-	
+
 	function get_player_rank($list)
 	{
 		global $database;
-		
+
 		$ranking = array();
-		
+
 		foreach($list as $player)
 		{
 			$sql =  "SELECT r.position FROM player u 
@@ -321,7 +321,7 @@
 						ORDER BY r.level desc, r.exp DESC, r.name ASC LIMIT 1000) r
 						ON r.id = u.id
 						WHERE u.id = :id";
-			
+
 			$stmt = $database->runQueryPlayer($sql);
 			$stmt->bindParam(':id', $player['id'], PDO::PARAM_INT);
 			$stmt->execute();
@@ -333,7 +333,7 @@
 			else
 				$ranking[$player['name']] = '~'.$result['position'];
 		}
-		
+
 		return $ranking;
 	}
 
@@ -345,12 +345,12 @@
 	function web_admin_level()
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount("SELECT web_admin FROM account WHERE id=:id");
 		$stmt->bindParam(':id', $_SESSION['id'], PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
+
 		return $result['web_admin'];
 	}
 
@@ -358,7 +358,7 @@
 	{
 		$jsondata = file_get_contents('include/settings.json');
 		$obj = json_decode($jsondata,true);
-		
+
 		if($v2=='')
 		{
 			$obj[$v1]=$new;
@@ -367,9 +367,9 @@
 		{
 			$obj[$v1][$v2]=$new;
 		}
-		
+
 		$json_new = json_encode($contentsDecoded);
-		
+
 		if(file_put_contents('include/settings.json', $json_new))
 			return true;
 		else return false;
@@ -378,7 +378,7 @@
 	function update_deletion_token($id, $deletion_token)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount("UPDATE account SET deletion_token=:deletion_token WHERE id=:id");
 		$stmt->execute(array(':deletion_token'=>$deletion_token, ':id'=>$id));
 		$stmt->execute();
@@ -387,9 +387,9 @@
 	function insert_delete_account($id)
 	{
 		global $database;
-		
+
 		$date = date('Y-m-d', strtotime("+7 days"));
-		
+
 		$stmt = $database->runQuerySqlite("INSERT INTO delete_account (account_id, date) VALUES (:id, :date)");
 		$stmt->execute(array(':date'=>$date, ':id'=>$id));
 	}
@@ -397,7 +397,7 @@
 	function cancel_delete_account()
 	{
 		global $database;
-		
+
 		$stmt = $database->runQuerySqlite('DELETE FROM delete_account WHERE account_id = ?');
 		$stmt->bindParam(1, $_SESSION['id'], PDO::PARAM_INT);
 		$stmt->execute();
@@ -406,30 +406,30 @@
 	function check_delete()
 	{
 		global $database;
-		
+
 		$stmt = $database->runQuerySqlite('SELECT date FROM delete_account WHERE account_id = ?');
 		$stmt->bindParam(1, $_SESSION['id'], PDO::PARAM_INT);
 		$stmt->execute();
 		$result = $stmt->fetch(PDO::FETCH_ASSOC);
-		
+
 		return $result;
 	}
 
 	function delete_in_progress()
 	{
 		global $database;
-		
+
 		$stmt = $database->runQuerySqlite('SELECT account_id, date FROM delete_account');
 		$stmt->execute();
 		$result = $stmt->fetchAll();
-		
+
 		return $result;
 	}
-	
+
 	function update_passlost_token($login, $passlost_token)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount("UPDATE account SET passlost_token=:passlost_token WHERE login=:login");
 		$stmt->execute(array(':passlost_token'=>$passlost_token, ':login'=>$login));
 	}
@@ -437,7 +437,7 @@
 	function update_passlost_token_by_email($email, $passlost_token='')
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount("UPDATE account SET passlost_token=:passlost_token WHERE email=:email");
 		$stmt->execute(array(':passlost_token'=>$passlost_token, ':email'=>$email));
 	}
@@ -445,7 +445,7 @@
 	function update_password_by_email($email, $password)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount("UPDATE account SET password=:password WHERE email=:email");
 		$stmt->execute(array(':password'=>$password, ':email'=>$email));
 	}
@@ -453,7 +453,7 @@
 	function update_email_token($id, $code)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount("UPDATE account SET email_token=:email_token WHERE id=:id");
 		$stmt->execute(array(':id'=>$id, ':email_token'=>$code));
 	}
@@ -461,7 +461,7 @@
 	function updateNewEmail()
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount("UPDATE account SET email=new_email, new_email='' WHERE id = ?");
 		$stmt->bindParam(1, $_SESSION['id'], PDO::PARAM_INT);
 		$stmt->execute();
@@ -470,18 +470,18 @@
 	function update_new_email($id, $email)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount("UPDATE account SET new_email=:new_email WHERE id=:id");
 		$stmt->execute(array(':id'=>$id, ':new_email'=>$email));
 	}
-	
+
 	function check_email_token($email, $email_token)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount("SELECT email_token FROM account WHERE email=:email AND email_token=:email_token LIMIT 1");
 		$stmt->execute(array(':email'=>$email, ':email_token'=>$email_token));
-		
+
 		$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
 		if($stmt->rowCount() == 1)
 			return true;
@@ -491,10 +491,10 @@
 	function check_recovery($email, $passlost_token)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount("SELECT email FROM account WHERE email=:email AND passlost_token=:passlost_token LIMIT 1");
 		$stmt->execute(array(':email'=>$email, ':passlost_token'=>$passlost_token));
-		
+
 		$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
 		if($stmt->rowCount() == 1)
 			return true;
@@ -504,10 +504,10 @@
 	function check_deletion($email, $deletion_token)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount("SELECT email FROM account WHERE email=:email AND deletion_token=:deletion_token LIMIT 1");
 		$stmt->execute(array(':email'=>$email, ':deletion_token'=>$deletion_token));
-		
+
 		$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
 		if($stmt->rowCount() == 1)
 			return true;
@@ -517,7 +517,7 @@
 	function recoveryPassword($code, $email, $name)
 	{
 		global $lang, $site_url;
-		
+
 		return '<!doctype html>
 			<html>
 
@@ -690,9 +690,9 @@
 	function sendCode($name, $code, $type=1)
 	{
 		global $lang, $site_url;
-		
+
 		$lang_user = $lang['user-name'];
-		
+
 		if($type==1)
 			$type=$lang['code-delete-chars'];
 		else if($type==2)
@@ -706,7 +706,7 @@
 			$type=$lang['change-email'];
 			$lang_user=$lang['new-email-address'];
 		}
-		
+
 		return '<!doctype html>
 			<html>
 
@@ -863,25 +863,25 @@
 	function getLogTables()
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryLog("SHOW TABLES");
 		$stmt->execute();
 		$result = $stmt->fetchAll(PDO::FETCH_COLUMN);
-		
+
 		return $result;
 	}
 
 	function getColumnsLog($table)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryLog("DESCRIBE ".$table);
 		$stmt->execute();
 		$result = $stmt->fetchAll(PDO::FETCH_COLUMN);
-		
+
 		return $result;
 	}
-	
+
 	function officialVersion()
 	{
 		$officialVersion = '';
@@ -889,41 +889,41 @@
 
 		return $officialVersion;
 	}
-	
+
 	function checkUpdate($lastVersion)
 	{
 		global $mt2cms;
 		$version = str_replace('.', '', $mt2cms);
-		
+
 		$lastVersion = str_replace('.', '', $lastVersion);
 		if($lastVersion==291)
 			$lastVersion=210;
-		
+
 		if($lastVersion && $lastVersion!='' && $lastVersion > $version)
 			return true;
 		return false;
 	}
-	
+
 	function check_item_column($name)
 	{
 		global $database;
-		
+
 		$sth = $database->runQueryPlayer("DESCRIBE item");
 		$sth->execute();
 		$columns = $sth->fetchAll(PDO::FETCH_COLUMN);
-		
+
 		if(in_array($name, $columns))
 			return true;
 		else return false;
 	}
-	
+
 	function check_item_sash($id)
 	{
 		if($id > 85000 && $id < 90000)
 			return true;
 		else return false;
 	}
-	
+
 	function get_account_by_char($name)
 	{
 		global $database;
@@ -936,7 +936,7 @@
 			return $account_id[0];
 		else return false;
 	}
-	
+
 	function getItemSize($code)
 	{
 		return 3;
@@ -945,16 +945,16 @@
 	function new_item_position($id_account, $new_item)
 	{
 		global $database;
-			
+
 		$sth = $database->runQueryPlayer('SELECT pos, vnum
 			FROM item
 			WHERE owner_id=? AND window="MALL" ORDER by pos ASC');
 		$sth->bindParam(1, $id_account, PDO::PARAM_INT);
 		$sth->execute();
 		$result = $sth->fetchAll();
-		
+
 		$used = $items_used = $used_check = array();
-		
+
 		foreach( $result as $row ) {
 			$used_check[] = $row['pos'];
 			$used[$row['pos']] = 1;
@@ -963,11 +963,11 @@
 		$used_check = array_unique($used_check);
 
 		$free = -1;
-		
+
 		for($i=0; $i<45; $i++){
 			if(!in_array($i,$used_check)){
 				$ok = true;
-				
+
 				if($i>4 && $i<10)
 				{
 					if(array_key_exists($i-5, $used) && getItemSize($items_used[$i-5])>1)
@@ -977,77 +977,77 @@
 				{
 					if(array_key_exists($i-5, $used) && getItemSize($items_used[$i-5])>1)
 						$ok = false;
-					
+
 					if(array_key_exists($i-10, $used) && getItemSize($items_used[$i-10])>2)
 						$ok = false;
 				}
 				else if($i>39 && $i<45 && getItemSize($new_item)>1)
 						$ok = false;
-				
+
 				if($ok)
 					return $i;
 			}
 		}
-		
+
 		return $free;
 	}
-	
+
 	function delete_char($id)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer('DELETE FROM player WHERE id = ?');
 		$stmt->bindParam(1, $id, PDO::PARAM_INT);
 		$stmt->execute();
-		
+
 		$stmt = $database->runQueryPlayer('DELETE FROM guild_member WHERE pid = ?');
 		$stmt->bindParam(1, $id, PDO::PARAM_INT);
 		$stmt->execute();
-		
+
 		$stmt = $database->runQueryPlayer('DELETE FROM item WHERE owner_id = ? AND window <> "MALL"');
 		$stmt->bindParam(1, $id, PDO::PARAM_INT);
 		$stmt->execute();
-		
+
 		$stmt = $database->runQueryPlayer('DELETE FROM player_index WHERE id = ?');
 		$stmt->bindParam(1, $id, PDO::PARAM_INT);
 		$stmt->execute();
 	}
-	
+
 	function delete_account($id)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount('DELETE FROM account WHERE id = ?');
 		$stmt->bindParam(1, $id, PDO::PARAM_INT);
 		$stmt->execute();
-		
+
 		$stmt = $database->runQueryPlayer('DELETE FROM item WHERE owner_id = ? AND window = "MALL"');
 		$stmt->bindParam(1, $id, PDO::PARAM_INT);
 		$stmt->execute();
-		
+
 		$stmt = $database->runQueryPlayer('DELETE FROM safebox WHERE account_id = ?');
 		$stmt->bindParam(1, $id, PDO::PARAM_INT);
 		$stmt->execute();
-		
+
 		$chars = characters_list_by_id($id);
-		
+
 		foreach($chars as $char)
 			delete_char($char['id']);
-			
+
 		$stmt = $database->runQuerySqlite('DELETE FROM delete_account WHERE account_id = ?');
 		$stmt->bindParam(1, $id, PDO::PARAM_INT);
 		$stmt->execute();
 	}
-	
+
 	function delete_vote4coins($id)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQuerySqlite('DELETE FROM vote4coins WHERE site = ?');
 		$stmt->bindParam(1, $id, PDO::PARAM_INT);
-		$stmt->execute();	
+		$stmt->execute();
 	}
-	
+
 	function check_vote4coins($key, $id)
 	{
 		global $database;
@@ -1062,7 +1062,7 @@
 			return true;
 		else return false;
 	}
-	
+
 	function check_vote4coins_by_account($id)
 	{
 		global $database;
@@ -1077,22 +1077,22 @@
 			return true;
 		return false;
 	}
-	
+
 	function insert_vote4coins($id, $ip)
 	{
 		global $database;
-		
+
 		$date = date('Y-m-d G:i');
 		$account = $_SESSION['id'];
-		
+
 		$stmt = $database->runQuerySqlite("INSERT INTO vote4coins (site, account_id, account_ip, date) VALUES (:site, :account_id, :account_ip, :date)");
 		$stmt->execute([':date'=>$date, ':account_id'=>$account, ':account_ip'=>$ip, ':site'=>$id]);
 	}
-	
+
 	function check_date_vote4coins($id, $ip)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQuerySqlite("SELECT date FROM vote4coins WHERE site = ? AND (account_ip = ? OR account_id = ?) ORDER BY date DESC LIMIT 1");
 		$stmt->bindParam(1, $id, PDO::PARAM_INT);
 		$stmt->bindParam(2, $ip, PDO::PARAM_STR);
@@ -1108,7 +1108,7 @@
 	function check_date_vote4coins_ip($id, $ip)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQuerySqlite("SELECT date FROM vote4coins WHERE site = ? AND account_ip = ? ORDER BY date DESC LIMIT 1");
 		$stmt->bindParam(1, $id, PDO::PARAM_INT);
 		$stmt->bindParam(2, $ip, PDO::PARAM_STR);
@@ -1119,11 +1119,11 @@
 			return $result[0];
 		return "0000-00-00 00:00";
 	}
-	
+
 	function sqlite_check_table($table)
 	{
 		global $database;
-		
+
 		try {
 			$result = $database->runQuerySqlite("SELECT 1 FROM $table LIMIT 1");
 		} catch (Exception $e) {
@@ -1132,7 +1132,7 @@
 
 		return $result !== FALSE;
 	}
-	
+
 	function sqlite_create_table($sql)
 	{
 		global $database;
@@ -1141,7 +1141,7 @@
 			return true;
 		return false;
 	}
-	
+
 	function addCoins($account_id, $coins)
 	{
 		global $database;
@@ -1151,7 +1151,7 @@
 		$stmt->bindParam(2, $account_id, PDO::PARAM_INT);
 		$stmt->execute();
 	}
-	
+
 	function addjCoins($account_id, $coins)
 	{
 		global $database;
@@ -1161,11 +1161,11 @@
 		$stmt->bindParam(2, $account_id, PDO::PARAM_INT);
 		$stmt->execute();
 	}
-	
+
 	function updateVote4Coins($site, $ip)
 	{
 		global $database;
-		
+
 		$date = date('Y-m-d G:i');
 
 		$stmt = $database->runQuerySqlite("UPDATE vote4coins SET account_ip = ?, date = ? WHERE site = ? AND account_id = ?");
@@ -1175,96 +1175,96 @@
 		$stmt->bindParam(4, $_SESSION['id'], PDO::PARAM_INT);
 		$stmt->execute();
 	}
-	
+
 	//2.6
 	function check_table_in_player($table)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer("SHOW TABLES LIKE ?");
 		$stmt->bindParam(1, $table, PDO::PARAM_STR);
-		$stmt->execute(); 
+		$stmt->execute();
 		$result = $stmt->fetchAll(PDO::FETCH_COLUMN);
-		
+
 		if(count($result))
 			return true;
 		else return false;
 	}
-	
+
 	function countOnlinePlayers_minute($m)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer("SELECT count(*) FROM player WHERE DATE_SUB(NOW(), INTERVAL ? MINUTE) < last_play");
 		$stmt->bindParam(1, $m, PDO::PARAM_INT);
-		$stmt->execute(); 
-		$count = $stmt->fetchColumn(); 
+		$stmt->execute();
+		$count = $stmt->fetchColumn();
 
 		return $count;
 	}
-	
+
 	function countOnlinePlayers_days($d)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer("SELECT count(*) FROM player WHERE DATE_SUB(NOW(), INTERVAL ? DAY) < last_play");
 		$stmt->bindParam(1, $d, PDO::PARAM_INT);
-		$stmt->execute(); 
-		$count = $stmt->fetchColumn(); 
+		$stmt->execute();
+		$count = $stmt->fetchColumn();
 
 		return $count;
 	}
-	
+
 	function getCharsTotalNumber()
 	{
 		global $database;
-		
-		$stmt = $database->runQueryPlayer("SELECT count(*) FROM player"); 
-		$stmt->execute(); 
-		$count = $stmt->fetchColumn(); 
+
+		$stmt = $database->runQueryPlayer("SELECT count(*) FROM player");
+		$stmt->execute();
+		$count = $stmt->fetchColumn();
 
 		return $count;
 	}
-	
+
 	function getAccountsTotalNumber()
 	{
 		global $database;
-		
-		$stmt = $database->runQueryAccount("SELECT count(*) FROM account"); 
-		$stmt->execute(); 
-		$count = $stmt->fetchColumn(); 
+
+		$stmt = $database->runQueryAccount("SELECT count(*) FROM account");
+		$stmt->execute();
+		$count = $stmt->fetchColumn();
 
 		return $count;
 	}
-	
+
 	function getGuildsTotalNumber()
 	{
 		global $database;
-		
-		$stmt = $database->runQueryPlayer("SELECT count(*) FROM guild"); 
-		$stmt->execute(); 
-		$count = $stmt->fetchColumn(); 
+
+		$stmt = $database->runQueryPlayer("SELECT count(*) FROM guild");
+		$stmt->execute();
+		$count = $stmt->fetchColumn();
 
 		return $count;
 	}
-	
+
 	function getOfflineShopsTotalNumber()
 	{
 		global $database;
-		
+
 		if(!check_table_in_player('offline_shop_npc'))
 			return 0;
 		else
 		{
-			$stmt = $database->runQueryPlayer("SELECT count(*) FROM offline_shop_npc"); 
-			$stmt->execute(); 
-			$count = $stmt->fetchColumn(); 
+			$stmt = $database->runQueryPlayer("SELECT count(*) FROM offline_shop_npc");
+			$stmt->execute();
+			$count = $stmt->fetchColumn();
 
 			return $count;
 		}
 		return 5;
 	}
-	
+
 	function getStatistics($key)
 	{
 		switch ($key) {
@@ -1290,86 +1290,86 @@
 				return "ERROR";
 		}
 	}
-	
+
 	function checkStatus($id)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount("SELECT status FROM account WHERE id=:id");
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
+
 		if($result['status']=="OK")
 			return 1;
 		else return 0;
 	}
-	
+
 	function check_account_column($name)
 	{
 		global $database;
-		
+
 		$sth = $database->runQueryAccount("DESCRIBE account");
 		$sth->execute();
 		$columns = $sth->fetchAll(PDO::FETCH_COLUMN);
-		
+
 		if(in_array($name, $columns))
 			return true;
 		else return false;
 	}
-	
+
 	function check_availDt($id)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount("SELECT availDt FROM account WHERE id=:id");
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
+
 		if($result['availDt'] != "0000-00-00 00:00:00")
-		{	
+		{
 			$date1 = new DateTime("now");
 			$date2 = new DateTime($result['availDt']);
 			if($date1 < $date2)
 				return 1;//banned
 		} else return 0;
-		
+
 		return 0;
 	}
-	
+
 	function get_availDt($id)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount("SELECT availDt FROM account WHERE id=:id");
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
+
 		return $result['availDt'];
 	}
-	
+
 	function banPermanent($id, $reason)
 	{
 		global $database;
-		
+
 		$now_time = date('Y-m-d H:i:s');
 		$status = 'BLOCK';
-		
+
 		$stmt = $database->runQuerySqlite("INSERT INTO ban_log (account_id, date, reason) VALUES (:id, :date, :reason)");
 		$stmt->execute(array(':date'=>$now_time, ':id'=>$id, ':reason'=>$reason));
-		
+
 		$stmt = $database->runQueryAccount("UPDATE account SET status = ? WHERE id = ?");
 		$stmt->bindParam(1, $status, PDO::PARAM_STR);
 		$stmt->bindParam(2, $id, PDO::PARAM_INT);
 		$stmt->execute();
 	}
-	
+
 	function getLastBanReason($id)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQuerySqlite('SELECT reason, date FROM ban_log WHERE account_id = ? ORDER BY id DESC LIMIT 1');
 		$stmt->bindParam(1, $id, PDO::PARAM_INT);
 		$stmt->execute();
@@ -1379,11 +1379,11 @@
 			return $result['date'].'</br>'.$result['reason'];
 		else return '';
 	}
-	
+
 	function getLoginLastBanReason($id)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQuerySqlite('SELECT reason FROM ban_log WHERE account_id = ? ORDER BY id DESC LIMIT 1');
 		$stmt->bindParam(1, $id, PDO::PARAM_INT);
 		$stmt->execute();
@@ -1393,22 +1393,22 @@
 			return $result['reason'];
 		else return '';
 	}
-	
+
 	function unBan($id)
 	{
 		global $database;
-		
+
 		$status = 'OK';
-		
+
 		$stmt = $database->runQueryAccount("UPDATE account SET status = ? WHERE id = ?");
 		$stmt->bindParam(1, $status, PDO::PARAM_STR);
 		$stmt->bindParam(2, $id, PDO::PARAM_INT);
 		$stmt->execute();
-		
+
 		if(check_account_column('availDt'))
 		{
 			$reset_availDt = "0000-00-00 00:00:00";
-			
+
 			$stmt = $database->runQueryAccount("UPDATE account SET availDt = ? WHERE id = ?");
 			$stmt->bindParam(1, $reset_availDt, PDO::PARAM_STR);
 			$stmt->bindParam(2, $id, PDO::PARAM_INT);
@@ -1419,12 +1419,12 @@
 	function banTemporary($id, $reason, $time_availDt)
 	{
 		global $database;
-		
+
 		$now_time = date('Y-m-d H:i:s');
-		
+
 		$stmt = $database->runQuerySqlite("INSERT INTO ban_log (account_id, date, reason) VALUES (:id, :date, :reason)");
 		$stmt->execute(array(':date'=>$now_time, ':id'=>$id, ':reason'=>$reason));
-		
+
 		$date = date('Y-m-d H:i:s', $time_availDt);
 
 		$stmt = $database->runQueryAccount("UPDATE account SET availDt = ? WHERE id = ?");
@@ -1432,33 +1432,33 @@
 		$stmt->bindParam(2, $id, PDO::PARAM_INT);
 		$stmt->execute();
 	}
-	
+
 	function check_char($id)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer("SELECT id FROM player WHERE id=:id LIMIT 1");
 		$stmt->execute(array(':id'=>$id));
-		
+
 		$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
 		if($stmt->rowCount() == 1)
 			return true;
 		else return false;
 	}
-	
+
 	function getCharColumns($table)
 	{
 		global $database;
 
 		$pdo_stmt = $database->runQueryPlayer('SELECT * from '.$table. ' LIMIT 1');
 		$pdo_stmt->execute();
-				
+
 		foreach(range(0, $pdo_stmt->columnCount() - 1) as $column_index)
 			$meta[] = $pdo_stmt->getColumnMeta($column_index);
 
 		return $meta;
 	}
-	
+
 	function translateNativeType($orig) {
 		$trans = array(
 			'VAR_STRING' => 'string',
@@ -1476,11 +1476,11 @@
 		);
 		return $trans[$orig];
 	}
-	
+
 	function getCharData($id)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer("SELECT * FROM player WHERE id=:id");
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
@@ -1488,11 +1488,11 @@
 
 		return $result;
 	}
-	
+
 	function updateChar($id, $columns, $old)
 	{
 		global $database;
-		
+
 		$query = '';
 		$new_data = array();
 
@@ -1502,59 +1502,59 @@
 				$new_data[$column['name']] = $_POST[$column['name']];
 				$query = $query.$column['name'].'=:'.$column['name'].', ';
 			}
-				
+
 		if(strlen($query))
 		{
 			$query=rtrim($query,", ");
 			$new_data['id_player'] = $id;
-			
+
 			$stmt = $database->runQueryPlayer("UPDATE player SET ".$query." WHERE id=:id_player");
 			$stmt->execute($new_data);
 			$stmt->execute();
 		}
 	}
-	
+
 	function getModulesList()
 	{
 		$modules = '';
 		$modules = file_get_contents_curl('https://new.metin2cms.cf/v2/modules/modules.json', 2, 5);
-		
+
 		$modules = json_decode($modules, TRUE);
 
 		if(isset($modules['modules']))
 			return $modules['modules'];
 		else return array();
 	}
-	
+
 	function getThemesList()
 	{
 		$themes = '';
 		$themes = file_get_contents_curl('https://new.metin2cms.cf/v2/themes/themes.json', 2, 5);
-		
+
 		$themes = json_decode($themes, TRUE);
 
 		if(isset($themes['themes']))
 			return $themes['themes'];
 		else return array();
 	}
-	
+
 	//2.12
 	function fix_account_columns()
 	{
 		global $database;
 		global $lang;
-		
+
 		$sth = $database->runQueryAccount("DESCRIBE account");
 		$sth->execute();
 		$columns = $sth->fetchAll(PDO::FETCH_COLUMN);
-		
+
 		$fix = array(	"coins" => "ALTER TABLE account ADD coins int(20) NOT NULL DEFAULT 0",
-						"jcoins" => "ALTER TABLE account ADD jcoins int(20) NOT NULL DEFAULT 0", 
+						"jcoins" => "ALTER TABLE account ADD jcoins int(20) NOT NULL DEFAULT 0",
 						"deletion_token" => "ALTER TABLE account ADD deletion_token varchar(40) NOT NULL DEFAULT ''",
 						"passlost_token" => "ALTER TABLE account ADD passlost_token varchar(40) NOT NULL DEFAULT ''",
 						"email_token" => "ALTER TABLE account ADD email_token varchar(40) NOT NULL DEFAULT ''",
 						"new_email" => "ALTER TABLE account ADD new_email varchar(64) NOT NULL DEFAULT ''");
-		
+
 		foreach($fix as $column => $query)
 			if(!in_array($column, $columns))
 			{
@@ -1564,25 +1564,25 @@
 				print '<div class="alert alert-success alert-dismissible fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><center>'.$lang['account-new-column'].$column.'</center></div>';
 			}
 	}
-	
+
 	//2.8
 	function getLanguagesList()
 	{
 		$languages = '';
 		$languages = file_get_contents_curl('https://new.metin2cms.cf/v2/languages/languages.json', 2, 5);
-		
+
 		$languages = json_decode($languages, TRUE);
 
 		if(isset($languages['languages']))
 			return $languages['languages'];
 		else return array();
 	}
-	
+
 	function reset_char($id, $mapindex, $x, $y)
 	{
 		global $database;
-		
-		
+
+
 		$stmt = $database->runQueryPlayer('SELECT map_index, x, y, exit_map_index FROM player WHERE id = ?');
 		$stmt->bindParam(1, $id, PDO::PARAM_INT);
 		$stmt->execute();
@@ -1591,29 +1591,29 @@
 		if($result['map_index']!= $mapindex || $result['x']!= $x || $result['y']!= $y || $result['exit_map_index']!= $mapindex)
 		{
 			$stmt = $database->runQueryPlayer("UPDATE player SET map_index=".$mapindex.", x=".$x.", y=".$y.", exit_x=0, exit_y=0, exit_map_index=".$mapindex.", horse_riding=0 WHERE id=".$id);
-			$stmt->execute();	
+			$stmt->execute();
 		}
 	}
-	
+
 	function get_donations()
 	{
 		global $database;
-		
+
 		$stmt = $database->runQuerySqlite("SELECT * FROM donate WHERE status = 0");
 		$stmt->execute();
 		$result=$stmt->fetchAll();
-		
+
 		return $result;
 	}
 
 	function insert_donate($id, $code, $type)
 	{
 		global $database;
-				
+
 		$stmt = $database->runQuerySqlite("INSERT INTO donate (account_id, code, type) VALUES (:id, :code, :type)");
 		$stmt->execute(array(':code'=>$code, ':id'=>$id, ':type'=>$type));
 	}
-	
+
 	function updateDonateStatus($id, $status)
 	{
 		global $database;
@@ -1623,22 +1623,22 @@
 		$stmt->bindParam(2, $id, PDO::PARAM_INT);
 		$stmt->execute();
 	}
-	
+
 	//2.10
 	function checkPrivileges($page, $web_admin)
 	{
 		global $jsondataPrivileges, $site_url;
-		
+
 		if($page=='home' && count($jsondataPrivileges))
 		{
 			foreach($jsondataPrivileges as $priv)
 				if($priv)
 					return;
-				
+
 			header("Location: ".$site_url);
 			die();
 		}
-		
+
 		switch ($page) {
 			case 'links':
 				$page = 'edit-info';
@@ -1683,7 +1683,7 @@
 				$page = 'reward-players';
 				break;
 		}
-		
+
 		if($page=='privileges')
 		{
 			if($web_admin<9)
@@ -1693,53 +1693,53 @@
 			} else return;
 		} else if($web_admin>=$jsondataPrivileges[$page])
 			return;
-		
+
 		header("Location: ".$site_url."admin");
 		die();
 	}
-	
+
 	function getAccountIDbyName($name)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount("SELECT id FROM account WHERE login LIKE ?");
 		$stmt->bindParam(1, $name, PDO::PARAM_STR);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
+
 		return $result['id'];
 	}
-	
+
 	function getAccountIDbyChar($name)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer("SELECT account_id FROM player WHERE name LIKE ?");
 		$stmt->bindParam(1, $name, PDO::PARAM_STR);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
+
 		return $result['account_id'];
 	}
-	
+
 	function getReferrals()
 	{
 		global $database;
-		
+
 		$stmt = $database->runQuerySqlite('SELECT *
 			FROM referrals
 			WHERE invited_by = ?');
 		$stmt->bindParam(1, $_SESSION['id'], PDO::PARAM_INT);
 		$stmt->execute();
 		$result = $stmt->fetchAll();
-		
+
 		return $result;
 	}
-	
+
 	function getReferralsForCheck($id)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQuerySqlite('SELECT *
 			FROM referrals
 			WHERE invited_by = ? AND registered = ? AND claimed = 0');
@@ -1747,94 +1747,94 @@
 		$stmt->bindParam(2, $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result = $stmt->fetchAll();
-		
+
 		return $result;
 	}
-	
+
 	function getPlayerInfo($account)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer('SELECT *
 			FROM player
 			WHERE account_id = ? ORDER BY level DESC LIMIT 1');
 		$stmt->bindParam(1, $account, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
+
 		return $result;
 	}
-	
+
 	function getAccountInfo($account)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount('SELECT login
 			FROM account
 			WHERE id = ?');
 		$stmt->bindParam(1, $account, PDO::PARAM_INT);
 		$stmt->execute();
 		$result = $stmt->fetchAll();
-		
+
 		return $result;
 	}
-	
+
 	function updateReferrals($id)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQuerySqlite("UPDATE referrals SET claimed = 1 WHERE registered=:id");
 		$stmt->execute(array(':id'=>$id));
 	}
-	
+
 	function addReferral($my_id, $ref)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQuerySqlite("INSERT INTO referrals (invited_by, registered) VALUES (:invited_by, :registered)");
 		$stmt->execute(array(':invited_by'=>$ref, ':registered'=>$my_id));
 	}
-	
+
 	function check_char_name($name)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer("SELECT name FROM player WHERE name LIKE :name LIMIT 1");
 		$stmt->bindparam(":name", $name);
 		$stmt->execute();
 		$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
 		if($stmt->rowCount() == 1)
 			return 1;
-		else return 0;	
+		else return 0;
 	}
-	
+
 	function searchGMlist($mName)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryCommon('SELECT *
 			FROM gmlist
 			WHERE mName = ?');
 		$stmt->bindParam(1, $mName, PDO::PARAM_STR);
 		$stmt->execute();
 		$result = $stmt->fetchAll();
-		
+
 		if($result)
 			return $result[0]['mAuthority'];
 		else return 'PLAYER';
 	}
-	
+
 	function updateGameAdmin($mAccount, $mName, $mAuthority)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryCommon('SELECT *
 			FROM gmlist
 			WHERE mName = ?');
 		$stmt->bindParam(1, $mName, PDO::PARAM_STR);
 		$stmt->execute();
 		$result = $stmt->fetchAll();
-		
+
 		if($result)
 		{
 			$stmt = $database->runQueryCommon("UPDATE gmlist SET mAuthority = ? WHERE mName = ?");
@@ -1847,36 +1847,36 @@
 			$stmt = $database->runQueryCommon("INSERT INTO gmlist (mAccount, mName, mAuthority) VALUES (:mAccount, :mName, :mAuthority)");
 			$stmt->execute(array(':mAccount'=>$mAccount, ':mName'=>$mName, ':mAuthority'=>$mAuthority));
 		}
-		
+
 		$x = "PLAYER";
-		
+
 		$stmt = $database->runQueryCommon('DELETE FROM gmlist WHERE mAuthority = ?');
 		$stmt->bindParam(1, $x, PDO::PARAM_STR);
 		$stmt->execute();
 	}
-	
+
 	function update_empire($id, $empire)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer("UPDATE player_index SET empire = ? WHERE id = ?");
 		$stmt->bindParam(1, $empire, PDO::PARAM_INT);
 		$stmt->bindParam(2, $id, PDO::PARAM_INT);
 		$stmt->execute();
 	}
-	
+
 	function get_web_admin_level($id)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount("SELECT web_admin FROM account WHERE id=:id");
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
+
 		return $result['web_admin'];
 	}
-	
+
 	function updateWebAdmin($id, $admin)
 	{
 		global $database;
@@ -1886,7 +1886,7 @@
 		$stmt->bindParam(2, $id, PDO::PARAM_INT);
 		$stmt->execute();
 	}
-	
+
 	function generateRedeemCode($length = 7) {
 		$characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		$charactersLength = strlen($characters);
@@ -1896,7 +1896,7 @@
 		}
 		return $randomString;
 	}
-	
+
 	function check_redeem_codes($code)
 	{
 		global $database;
@@ -1910,36 +1910,36 @@
 			return true;
 		else return false;
 	}
-	
+
 	function addRedeemCode($type, $value)
 	{
 		global $database;
 
 		$ok = false;
-		
+
 		while(!$ok)
 		{
 			$code = generateRedeemCode(16);
-			
+
 			if(!check_redeem_codes($code))
 				$ok = true;
 		}
-		
+
 		$stmt = $database->runQuerySqlite("INSERT INTO redeem (code, type, value) VALUES (:code, :type, :value)");
 		$stmt->execute(array(':code'=>$code, ':type'=>$type, ':value'=>$value));
-		
+
 		return $code;
 	}
-	
+
 	function delete_redeeem_code($id)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQuerySqlite('DELETE FROM redeem WHERE id = ?');
 		$stmt->bindParam(1, $id, PDO::PARAM_INT);
 		$stmt->execute();
 	}
-	
+
 	function getRedeem($code)
 	{
 		global $database;
@@ -1951,35 +1951,35 @@
 
 		return $result;
 	}
-	
+
 	//v2.11
 	function add_item_award($account_id, $vnum, $count, $socket0, $socket1, $socket2)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer('INSERT INTO item_award(login, vnum, count, given_time, socket0, socket1, socket2, mall) VALUES (?,?,?,NOW(),?,?,?,?)');
 		$stmt->execute(array(getAccountName($account_id), $vnum, $count, $socket0, $socket1, $socket2, 1));
 	}
-		
+
 	function getOnlinePlayers_minute($m)
 	{
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer("SELECT account_id FROM player WHERE DATE_SUB(NOW(), INTERVAL ? MINUTE) < last_play");
 		$stmt->bindParam(1, $m, PDO::PARAM_INT);
-		$stmt->execute(); 
+		$stmt->execute();
 		$result = $stmt->fetchAll();
 
 		return $result;
 	}
-	
+
 	function file_get_contents_curl($url, $retries=5, $time_out=10)
 	{
 		$ua = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.82 Safari/537.36';
 		if (extension_loaded('curl') === true)
 		{
 			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_URL, $url); 
+			curl_setopt($ch, CURLOPT_URL, $url);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $time_out);
 			curl_setopt($ch, CURLOPT_USERAGENT, $ua);
@@ -1993,7 +1993,7 @@
 		}
 		else
 			$result = file_get_contents($url, false, stream_context_create(array('http' => array('header'=>'Connection: close\r\n'))));
-		
+
 		if (empty($result) === true)
 		{
 			$result = false;
@@ -2002,15 +2002,15 @@
 				sleep(1);
 				return file_get_contents_curl($url, --$retries);
 			}
-		}    
+		}
 		return $result;
 	}
-	
+
 	function ZipExtractUpdate()
 	{
 		$file = 'update.zip';
 		$path = pathinfo(realpath($file), PATHINFO_DIRNAME);
-		
+
 		if(class_exists('ZipArchive'))
 		{
 			$zip = new ZipArchive;
@@ -2018,25 +2018,25 @@
 			if($res === TRUE) {
 				$zip->extractTo($path);
 				$zip->close();
-				
+
 				if(file_exists($file)) {
 					unlink($file);
 				}
-				
+
 				return array(1);
 			} else array(0);
 		}
 		else {
 			require_once('include/classes/pclzip.lib.php');
 			$archive = new PclZip($file);
-			
+
 			if ($archive->extract($path) == 0)
 				array(0, '<div class="alert alert-danger" role="alert">Error: '.$archive->errorInfo(true).'</div>');
 			else {
 				if(file_exists($file)) {
 					unlink($file);
 				}
-				
+
 				return array(1);
 			}
 		}
@@ -2047,20 +2047,20 @@
 	function getTimeUntilNextVote($date_diff)
 	{
 		global $lang;
-		
+
 		$time_vote            = [];
 		$time_vote['days']    = $date_diff->d;
 		$time_vote['hours']   = $date_diff->h;
 		$time_vote['minutes'] = $date_diff->i;
 		$already_voted        = '';
-		
+
 		foreach ($time_vote as $key => $time)
 			if($time)
 				$already_voted .= $time . ' ' . $lang[$key] . ' ';
-		
+
 		$already_voted = substr($already_voted, 0, -1);
 		$already_voted .= '.';
-		
+
 		return $already_voted;
 	}
 ?>
