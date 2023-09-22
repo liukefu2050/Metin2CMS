@@ -60,7 +60,7 @@
                 </li>
 				<?php } ?>
 			</ul>
-			
+
             <ul id='menu-external-nav' class='cms2-g external eason'>
                 <li class='cms2-u menu-item menu-item-type-post_type'><a target='' class='relatedlink' href=''><?php print strtoupper($site_domain);?></a>
                 </li>
@@ -120,11 +120,11 @@
 							</div>
 						</div>
 					<?php } ?>
-					
+
 					<p class="cms2-u copyright">
 						<div class="row">
 							<div class="col-md-8">
-								&copy; Copyright <?php 
+								&copy; Copyright <?php
 														$copyright_year = date('Y');
 														if($copyright_year > 2017)
 															print '2017 - '.$copyright_year;
@@ -132,9 +132,7 @@
 														print ' '.$site_title;
 													?>
 							</div>
-							<div class="col-md-4">
-								<p style="text-align: right">Powered by <a href="https://metin2cms.cf/" target="_blank">Metin2CMS <?php print $mt2cms; ?></a></p>
-							</div>
+
 						</div>
 					</p>
                 </div>
