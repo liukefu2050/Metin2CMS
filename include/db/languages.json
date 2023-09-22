@@ -1,8 +1,9 @@
 {
    "settings":{
-      "default":"en"
+      "default":"cn"
    },
    "languages":{
+      "cn":"中文",
       "en":"English",
       "ro":"Română"
    }
