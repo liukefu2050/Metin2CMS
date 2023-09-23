@@ -1,0 +1,24 @@
+/* open sans family */
+@import url("http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;subset=latin,latin-ext");
+
+/* klavika light */
+@font-face {
+    font-family: "Klavika Light";
+    src: url("../fonts/klavika_light.eot");
+    src: url("../fonts/klavika_light.eot?#iefix") format("embedded-opentype"),
+        url("../fonts/klavika_light.woff") format("woff"),
+        url("../fonts/klavika_light.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* klavika bold */
+@font-face {
+    font-family: "Klavika Bold";
+    src: url("../fonts/klavika_bold.eot");
+    src: url("../fonts/klavika_bold.eot?#iefix") format("embedded-opentype"),
+        url("../fonts/klavika_bold.woff") format("woff"),
+        url("../fonts/klavika_bold.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}

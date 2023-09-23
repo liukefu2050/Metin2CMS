@@ -99,3 +99,62 @@ RewriteRule ^user/referrals index.php?p=referrals
 
 RewriteRule ^user/redeem/ index.php?p=redeem
 RewriteRule ^user/redeem index.php?p=redeem
+
+
+
+RewriteRule ^home/ index.php
+RewriteRule ^home index.php
+
+RewriteRule ^category/(.*)/ index.php?p=items&category=$1
+RewriteRule ^category/(.*) index.php?p=items&category=$1
+RewriteRule ^category/ index.php?p=items&category=0
+RewriteRule ^category index.php?p=items&category=0
+
+RewriteRule ^item/(.*)/ index.php?p=item&id=$1
+RewriteRule ^item/(.*) index.php?p=item&id=$1
+RewriteRule ^item/ index.php?p=item&id=0
+RewriteRule ^item index.php?p=item&id=0
+
+RewriteRule ^login/ index.php?p=login
+RewriteRule ^login index.php?p=login
+
+RewriteRule ^logout/ index.php?p=logout
+RewriteRule ^logout index.php?p=logout
+
+RewriteRule ^categories/ index.php?p=categories
+RewriteRule ^categories index.php?p=categories
+
+RewriteRule ^add/item/(.*)/ index.php?p=add_items&category=$1
+RewriteRule ^add/item/(.*) index.php?p=add_items&category=$1
+RewriteRule ^add/item/ index.php?p=add_items&category=0
+RewriteRule ^add/item index.php?p=add_items&category=0
+
+RewriteRule ^add/bonus/item/(.*)/ index.php?p=add_items_bonus&category=$1
+RewriteRule ^add/bonus/item/(.*) index.php?p=add_items_bonus&category=$1
+RewriteRule ^add/bonus/item/ index.php?p=add_items_bonus&category=0
+RewriteRule ^add/bonus/item index.php?p=add_items_bonus&category=0
+
+RewriteRule ^settings/ index.php?p=settings
+RewriteRule ^settings index.php?p=settings
+
+RewriteRule ^remove/item/(.*)/(.*)/ index.php?p=items&remove=$1&category=$2
+RewriteRule ^remove/item/(.*)/(.*) index.php?p=items&remove=$1&category=$2
+RewriteRule ^remove/item/(.*)/ index.php?p=items&remove=$1&category=0
+RewriteRule ^remove/item/(.*) index.php?p=items&remove=$1&category=0
+RewriteRule ^remove/item/ index.php?p=items&remove=0&category=0
+RewriteRule ^remove/item index.php?p=items&remove=0&category=0
+
+RewriteRule ^remove/category/(.*)/ index.php?p=categories&remove=$1
+RewriteRule ^remove/category/(.*) index.php?p=categories&remove=$1
+RewriteRule ^remove/category/ index.php?p=categories&remove=0
+RewriteRule ^remove/category index.php?p=categories&remove=0
+
+RewriteRule ^admin/paypal/(.*)/ index.php?p=paypal&remove=$1
+RewriteRule ^admin/paypal/(.*) index.php?p=paypal&remove=$1
+RewriteRule ^admin/paypal/ index.php?p=paypal
+RewriteRule ^admin/paypal index.php?p=paypal
+
+RewriteRule ^buy/coins/(.*)/ index.php?p=coins&m=$1
+RewriteRule ^buy/coins/(.*) index.php?p=coins&m=$1
+RewriteRule ^buy/coins/ index.php?p=coins
+RewriteRule ^buy/coins index.php?p=coins
