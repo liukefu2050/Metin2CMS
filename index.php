@@ -35,6 +35,7 @@
             <ul id="menu-header-nav" class="cms2-g main eason">
 				<?php if(!$offline) { ?>
                 <li class="cms2-u menu-item"><a href="<?php print $site_url; ?>news"><?php print $lang['news']; ?></a></li>
+                <li class="cms2-u menu-item"><a href="<?php print $site_url; ?>shop"><?php print $lang['item-shop']; ?></a></li>
 				<?php if(!$database->is_loggedin()) { ?>
                 <li class="cms2-u menu-item"><a href="<?php print $site_url; ?>users/register"><?php print $lang['register']; ?></a></li>
 				<?php } ?>
